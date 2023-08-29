@@ -22,10 +22,11 @@
     nodePackages_latest.bash-language-server
     sxiv
     pywal
-	pcmanfm
-	hyprland
-	gnome3.gnome-tweaks
-	lua
+    pcmanfm
+    hyprland
+    gnome3.gnome-tweaks
+    lua
+    lua-language-server
     exa
     mako
     # dbus-sway-environment
@@ -42,10 +43,15 @@
     # configure-gtk
     #  thunderbird
   ];
-programs.waybar.enable=true;
+  programs.waybar.enable = true;
+  programs.git = {
+      enable = true;
+      userName = "pavanbhat1999";
+      userEmail = "prbhat07@gmail.com";
+  };
   programs.waybar.package = pkgs.waybar.overrideAttrs (oa: {
-    mesonFlags = (oa.mesonFlags or  []) ++ [ "-Dexperimental=true" ];
-    patches = (oa.patches or []) ++ [
+    mesonFlags = (oa.mesonFlags or  [ ]) ++ [ "-Dexperimental=true" ];
+    patches = (oa.patches or [ ]) ++ [
       (pkgs.fetchpatch {
         name = "fix waybar hyprctl";
         url = "https://aur.archlinux.org/cgit/aur.git/plain/hyprctl.patch?h=waybar-hyprland-git";
@@ -53,6 +59,6 @@ programs.waybar.enable=true;
       })
     ];
   });
-programs.home-manager.enable = true;
+  programs.home-manager.enable = true;
 }
 

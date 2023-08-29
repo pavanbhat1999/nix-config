@@ -5,26 +5,22 @@
 { config, pkgs, ... }:
 {
   imports =
-    [ # Include the results of the hardware scan.
-        ./hardware-configuration.nix
-        <home-manager/nixos>
+    [
+      # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+      <home-manager/nixos>
     ];
-nixpkgs.config.allowUnfree = true;
-nix = {
-  package = pkgs.nixFlakes;
-  extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
-};
+  nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # Use the systemd-boot EFI boot loader.
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
-    boot.supportedFilesystems = [ "ntfs" ];
-    # boot.kernelParams = ["nvidia_drm.modeset=1"];
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = [ "ntfs" ];
+  # boot.kernelParams = ["nvidia_drm.modeset=1"];
   networking.hostName = "root99"; # Define your hostname.
   # Pick only one of the below networking options.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   programs.dconf.enable = true;
   virtualisation.libvirtd.enable = true;
@@ -36,7 +32,7 @@ nix = {
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-   i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
   # console = {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
@@ -62,7 +58,7 @@ nix = {
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
- services.pipewire = {
+  services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
@@ -76,56 +72,58 @@ nix = {
   };
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
-environment.shells = with pkgs; [ zsh ];
-environment.sessionVariables = rec{
-PATH= [
-"/home/root99/bin"
-"/home/root99/bin/CustomScripts"
-"/home/root99/bin/themes/"
-"/home/root99/bin/appimages:$PATH"
-"/home/root99/bin/rofi-scripts:$PATH"
-"/home/root99/bin/scripts:$PATH"
-"/home/root99/bin/themes:$PATH"
-];
-EDITOR="nvim";
-VISUAL="nvim";
-TERMINAL="kitty";
-};
+  environment.shells = with pkgs; [ zsh ];
+  environment.sessionVariables = rec{
+    PATH = [
+      "/home/root99/bin"
+      "/home/root99/bin/CustomScripts"
+      "/home/root99/bin/themes/"
+      "/home/root99/bin/appimages:$PATH"
+      "/home/root99/bin/rofi-scripts:$PATH"
+      "/home/root99/bin/scripts:$PATH"
+      "/home/root99/bin/themes:$PATH"
+    ];
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+    TERMINAL = "kitty";
+  };
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.root99 = {
     isNormalUser = true;
-   extraGroups = [ "wheel" "networkmanager" "disk" "libvirtd"]; # Enable ‘sudo’ for the user.
-   shell = pkgs.zsh;
-     packages = with pkgs; [
-       firefox
-       tree
-       kitty
-       ventoy
-       gparted
-       brave
-       zsh
-       exa
-       git
-       fzf
-	   ripgrep
-	   lua
-	   gcc
-	   clang
-	   zig
-       btop
-       xclip
-       # cudatoolkit
-     ];
-   };
+    extraGroups = [ "wheel" "networkmanager" "disk" "libvirtd" ]; # Enable ‘sudo’ for the user.
+    shell = pkgs.zsh;
+    packages = with pkgs; [
+      firefox
+      tree
+      kitty
+      ventoy
+      gparted
+      brave
+      zsh
+      exa
+      git
+      fzf
+      ripgrep
+      lua
+      gcc
+      clang
+      zig
+      btop
+      xclip
+      # cudatoolkit
+    ];
+  };
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-   environment.systemPackages = with pkgs; [
-	vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-	neovim
-	wget
+  environment.systemPackages = with pkgs; [
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    neovim
+    wget
     killall
     virt-manager
-   ];
+    OVMF
+    nixd
+  ];
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
@@ -140,23 +138,23 @@ TERMINAL="kitty";
   # };
 
   # List services that you want to enable:
-programs.zsh = {
-enable = true;
-enableCompletion = true;
-autosuggestions.enable = true;
-syntaxHighlighting.enable = true;
-};
-programs.neovim.enable = true;
-programs.neovim.defaultEditor = true;
-programs.hyprland.enable = true;
-programs.hyprland.xwayland.enable = true;
-security.polkit.enable = true;
-# services.xserver.videoDrivers = [ "nvidia" ];
-hardware.opengl.enable = true;
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestions.enable = true;
+    syntaxHighlighting.enable = true;
+  };
+  programs.neovim.enable = true;
+  programs.neovim.defaultEditor = true;
+  programs.hyprland.enable = true;
+  programs.hyprland.xwayland.enable = true;
+  security.polkit.enable = true;
+  # services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.opengl.enable = true;
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
-fonts = {
-    fonts = with pkgs; [
+  fonts = {
+    packages = with pkgs; [
       noto-fonts
       noto-fonts-cjk
       noto-fonts-emoji
@@ -170,19 +168,19 @@ fonts = {
     fontconfig = {
       enable = true;
       defaultFonts = {
-	      # monospace = [ "Meslo LG M Regular Nerd Font Complete Mono" ];
-	      monospace = [ "Fira Code Retina" ];
-	      serif = [ "Noto Serif" "Source Han Serif" ];
-	      sansSerif = [ "Noto Sans" "Source Han Sans" ];
+        # monospace = [ "Meslo LG M Regular Nerd Font Complete Mono" ];
+        monospace = [ "Fira Code Retina" ];
+        serif = [ "Noto Serif" "Source Han Serif" ];
+        sansSerif = [ "Noto Sans" "Source Han Sans" ];
       };
     };
-};
+  };
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-system.copySystemConfiguration = true;
+  system.copySystemConfiguration = true;
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
