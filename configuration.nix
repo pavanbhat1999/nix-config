@@ -8,7 +8,7 @@
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      <home-manager/nixos>
+      # <home-manager/nixos>
     ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -21,6 +21,7 @@
   # Pick only one of the below networking options.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+
 
   programs.dconf.enable = true;
   virtualisation.libvirtd.enable = true;
@@ -41,13 +42,28 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-
+  services.gvfs.enable = true;
 
   # Enable the Plasma 5 Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.windowManager.i3.enable = true;
+  services.gnome3.gnome-keyring.enable = true;
+  security.pam.services.sddm.enableGnomeKeyring = true;
 
 
+
+environment.plasma5.excludePackages = with pkgs.libsForQt5; [
+  elisa
+  gwenview
+  okular
+  oxygen
+  khelpcenter
+  konsole
+  # plasma-browser-integration
+  print-manager
+  # xdg-desktop-portal-kde
+];
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e,caps:escape";
@@ -58,6 +74,7 @@
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -90,7 +107,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.root99 = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "disk" "libvirtd" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "kvm" "input" "networkmanager" "disk" "libvirtd" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
     packages = with pkgs; [
       firefox
@@ -110,6 +127,9 @@
       zig
       btop
       xclip
+      virt-manager
+      OVMF
+      nixd
       # cudatoolkit
     ];
   };
@@ -120,15 +140,17 @@
     neovim
     wget
     killall
-    virt-manager
-    OVMF
-    nixd
+    exfat
+    udisks
+    gvfs
+    ntfs3g
+    nfs-utils
   ];
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.root99 = import ./home.nix;
-  };
+  # home-manager = {
+  #   useGlobalPkgs = true;
+  #   useUserPackages = true;
+  #   users.root99 = import ./home.nix;
+  # };
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -149,10 +171,17 @@
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
   security.polkit.enable = true;
+  xdg.portal = {
+    enable = true;
+    # wlr.enable = true;
+    # gtk portal needed to make gtk apps happy
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland];
+  };
   # services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.enable = true;
+  # hardware.opengl.enable = true;
+
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
   fonts = {
     packages = with pkgs; [
       noto-fonts
@@ -169,7 +198,7 @@
       enable = true;
       defaultFonts = {
         # monospace = [ "Meslo LG M Regular Nerd Font Complete Mono" ];
-        monospace = [ "Fira Code Retina" ];
+        monospace = [ "Fira Code" ];
         serif = [ "Noto Serif" "Source Han Serif" ];
         sansSerif = [ "Noto Sans" "Source Han Sans" ];
       };
@@ -180,7 +209,8 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-  system.copySystemConfiguration = true;
+#NOTE:removed because of flakes
+  # system.copySystemConfiguration = true;
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.

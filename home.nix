@@ -24,11 +24,13 @@
     pywal
     pcmanfm
     hyprland
+    i3
     gnome3.gnome-tweaks
     lua
     lua-language-server
     exa
     mako
+    libnotify
     # dbus-sway-environment
     # configure-gtk
     wayland
@@ -42,13 +44,19 @@
     pavucontrol
     # configure-gtk
     #  thunderbird
+    discord
   ];
   programs.waybar.enable = true;
   programs.git = {
-      enable = true;
-      userName = "pavanbhat1999";
-      userEmail = "prbhat07@gmail.com";
+    enable = true;
+    userName = "pavanbhat1999";
+    userEmail = "prbhat07@gmail.com";
   };
+
+# programs.zsh = {
+#   enable = true;
+#   initExtra = "export PATH=/home/root99/bin/scripts:$PATH";
+# };
   programs.waybar.package = pkgs.waybar.overrideAttrs (oa: {
     mesonFlags = (oa.mesonFlags or  [ ]) ++ [ "-Dexperimental=true" ];
     patches = (oa.patches or [ ]) ++ [
