@@ -23,7 +23,7 @@
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
 
-  programs.dconf.enable = true;
+  # programs.dconf.enable = true;
   virtualisation.libvirtd.enable = true;
   # Set your time zone.
   time.timeZone = "Asia/Kolkata";
@@ -45,28 +45,28 @@
   services.gvfs.enable = true;
 
   # Enable the Plasma 5 Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.windowManager.i3.enable = true;
-services.xserver.windowManager.i3.extraSessionCommands = ''
-  eval $(gnome-keyring-daemon --daemonize)
-  export SSH_AUTH_SOCK
-'';
+  # services.xserver.displayManager.sddm.enable = true;
+#   services.xserver.desktopManager.plasma5.enable = true;
+#   services.xserver.windowManager.i3.enable = true;
+# services.xserver.windowManager.i3.extraSessionCommands = ''
+#   eval $(gnome-keyring-daemon --daemonize)
+#   export SSH_AUTH_SOCK
+# '';
   # services.xserver.desktopManager.gnome.enable = true;
-  services.gnome3.gnome-keyring.enable = true;
-  security.pam.services.sddm.enableGnomeKeyring = true;
+  # services.gnome3.gnome-keyring.enable = true;
+  # security.pam.services.root99.enableGnomeKeyring = true;
 
-environment.plasma5.excludePackages = with pkgs.libsForQt5; [
-  elisa
-  gwenview
-  okular
-  oxygen
-  khelpcenter
-  # konsole
-  # plasma-browser-integration
-  print-manager
-  # xdg-desktop-portal-kde
-];
+# environment.plasma5.excludePackages = with pkgs.libsForQt5; [
+#   elisa
+#   gwenview
+#   okular
+#   oxygen
+#   khelpcenter
+#   # konsole
+#   # plasma-browser-integration
+#   print-manager
+#   # xdg-desktop-portal-kde
+# ];
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e,caps:escape";
@@ -77,7 +77,7 @@ environment.plasma5.excludePackages = with pkgs.libsForQt5; [
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
+  # security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -133,6 +133,7 @@ environment.plasma5.excludePackages = with pkgs.libsForQt5; [
       virt-manager
       OVMF
       nixd
+      hyprpaper
       # cudatoolkit
     ];
   };
@@ -148,7 +149,8 @@ environment.plasma5.excludePackages = with pkgs.libsForQt5; [
     gvfs
     ntfs3g
     nfs-utils
-    gnome.seahorse
+    # gnome.seahorse
+    # gnome.gnome-keyring
     libsecret
   ];
   # home-manager = {
@@ -175,7 +177,7 @@ environment.plasma5.excludePackages = with pkgs.libsForQt5; [
   programs.neovim.defaultEditor = true;
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
-  security.polkit.enable = true;
+  # security.polkit.enable = true;
   xdg.portal = {
     enable = true;
     # wlr.enable = true;

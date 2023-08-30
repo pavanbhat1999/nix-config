@@ -25,7 +25,7 @@
     pcmanfm
     hyprland
     i3
-    gnome3.gnome-tweaks
+    # gnome3.gnome-tweaks
     lua
     lua-language-server
     exa
