@@ -48,11 +48,13 @@
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.windowManager.i3.enable = true;
+services.xserver.windowManager.i3.extraSessionCommands = ''
+  eval $(gnome-keyring-daemon --daemonize)
+  export SSH_AUTH_SOCK
+'';
   # services.xserver.desktopManager.gnome.enable = true;
   services.gnome3.gnome-keyring.enable = true;
   security.pam.services.sddm.enableGnomeKeyring = true;
-
-
 
 environment.plasma5.excludePackages = with pkgs.libsForQt5; [
   elisa
