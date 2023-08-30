@@ -149,6 +149,7 @@ environment.plasma5.excludePackages = with pkgs.libsForQt5; [
     ntfs3g
     nfs-utils
     gnome.seahorse
+    libsecret
   ];
   # home-manager = {
   #   useGlobalPkgs = true;
