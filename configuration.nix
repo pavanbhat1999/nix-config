@@ -45,28 +45,42 @@
   services.gvfs.enable = true;
 
   # Enable the Plasma 5 Desktop Environment.
-  # services.xserver.displayManager.sddm.enable = true;
-#   services.xserver.desktopManager.plasma5.enable = true;
-#   services.xserver.windowManager.i3.enable = true;
-# services.xserver.windowManager.i3.extraSessionCommands = ''
-#   eval $(gnome-keyring-daemon --daemonize)
-#   export SSH_AUTH_SOCK
-# '';
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
+  #   services.xserver.windowManager.i3.enable = true;
+  # services.xserver.windowManager.i3.extraSessionCommands = ''
+  #   eval $(gnome-keyring-daemon --daemonize)
+  #   export SSH_AUTH_SOCK
+  # '';
   # services.xserver.desktopManager.gnome.enable = true;
   # services.gnome3.gnome-keyring.enable = true;
   # security.pam.services.root99.enableGnomeKeyring = true;
-
-# environment.plasma5.excludePackages = with pkgs.libsForQt5; [
-#   elisa
-#   gwenview
-#   okular
-#   oxygen
-#   khelpcenter
-#   # konsole
-#   # plasma-browser-integration
-#   print-manager
-#   # xdg-desktop-portal-kde
-# ];
+  security.pam.services.sddm.enableKwallet = true;
+  programs.hyprland.enable = true;
+  programs.hyprland.xwayland.enable = true;
+  # security.polkit.enable = true;
+  xdg.portal = {
+    enable = true;
+    # wlr.enable = true;
+    # gtk portal needed to make gtk apps happy
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+  };
+  # security.pam.services.root99.enableKwallet = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
+  # environment.plasma5.excludePackages = with pkgs.libsForQt5; [
+  #   elisa
+  #   gwenview
+  #   okular
+  #   oxygen
+  #   khelpcenter
+  #   # konsole
+  #   # plasma-browser-integration
+  #   print-manager
+  #   # xdg-desktop-portal-kde
+  # ];
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e,caps:escape";
@@ -77,7 +91,7 @@
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
-  # security.rtkit.enable = true;
+  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -149,9 +163,10 @@
     gvfs
     ntfs3g
     nfs-utils
-    # gnome.seahorse
-    # gnome.gnome-keyring
+    gnome.seahorse
+    gnome.gnome-keyring
     libsecret
+    gcr
   ];
   # home-manager = {
   #   useGlobalPkgs = true;
@@ -175,15 +190,6 @@
   };
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
-  programs.hyprland.enable = true;
-  programs.hyprland.xwayland.enable = true;
-  # security.polkit.enable = true;
-  xdg.portal = {
-    enable = true;
-    # wlr.enable = true;
-    # gtk portal needed to make gtk apps happy
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland];
-  };
   # services.xserver.videoDrivers = [ "nvidia" ];
   # hardware.opengl.enable = true;
 
@@ -216,7 +222,7 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-#NOTE:removed because of flakes
+  #NOTE:removed because of flakes
   # system.copySystemConfiguration = true;
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

@@ -31,6 +31,7 @@
     exa
     mako
     libnotify
+    dbus
     # dbus-sway-environment
     # configure-gtk
     wayland
@@ -39,8 +40,8 @@
     # dracula-theme # gtk theme
     # gnome3.adwaita-icon-theme  # default gnome cursors
     # swaylock
-    # swayidle
-    # sway
+    swayidle
+    sway
     pavucontrol
     # configure-gtk
     #  thunderbird
@@ -53,10 +54,10 @@
     userEmail = "prbhat07@gmail.com";
   };
 
-# programs.zsh = {
-#   enable = true;
-#   initExtra = "export PATH=/home/root99/bin/scripts:$PATH";
-# };
+  # programs.zsh = {
+  #   enable = true;
+  #   initExtra = "export PATH=/home/root99/bin/scripts:$PATH";
+  # };
   programs.waybar.package = pkgs.waybar.overrideAttrs (oa: {
     mesonFlags = (oa.mesonFlags or  [ ]) ++ [ "-Dexperimental=true" ];
     patches = (oa.patches or [ ]) ++ [
