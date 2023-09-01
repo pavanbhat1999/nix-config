@@ -41,7 +41,8 @@
     # gnome3.adwaita-icon-theme  # default gnome cursors
     # swaylock
     swayidle
-    sway
+    pass-wayland
+    # sway
     pavucontrol
     # configure-gtk
     #  thunderbird

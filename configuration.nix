@@ -53,12 +53,15 @@
   #   export SSH_AUTH_SOCK
   # '';
   # services.xserver.desktopManager.gnome.enable = true;
-  # services.gnome3.gnome-keyring.enable = true;
-  # security.pam.services.root99.enableGnomeKeyring = true;
-  security.pam.services.sddm.enableKwallet = true;
+  services.gnome3.gnome-keyring.enable = true;
+  security.pam.services.sddm.enableGnomeKeyring = true;
+  services.dbus.enable = true;
+  # security.pam.services.sddm.gnupg.enable=true;
+  # security.pam.services.root99.gnupg.enable=true;
+  # security.pam.services.sddm.enableKwallet = true;
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
-  # security.polkit.enable = true;
+  security.polkit.enable = true;
   xdg.portal = {
     enable = true;
     # wlr.enable = true;
@@ -66,10 +69,12 @@
     extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   };
   # security.pam.services.root99.enableKwallet = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+  programs.gnupg.agent.pinentryFlavor="qt";
+  services.pcscd.enable = true;
   # environment.plasma5.excludePackages = with pkgs.libsForQt5; [
   #   elisa
   #   gwenview
@@ -107,6 +112,7 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
   environment.shells = with pkgs; [ zsh ];
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.sessionVariables = rec{
     PATH = [
       "/home/root99/bin"
@@ -117,6 +123,9 @@
       "/home/root99/bin/scripts:$PATH"
       "/home/root99/bin/themes:$PATH"
     ];
+
+    GNUPGHOME="/home/root99/.config/GNU/";
+    PASSWORD_STORE_DIR="/home/root99/.config/pass";
     EDITOR = "nvim";
     VISUAL = "nvim";
     TERMINAL = "kitty";
@@ -167,6 +176,9 @@
     gnome.gnome-keyring
     libsecret
     gcr
+    xorg.xhost
+    nodejs
+    jdk17
   ];
   # home-manager = {
   #   useGlobalPkgs = true;
