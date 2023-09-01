@@ -22,7 +22,6 @@
     nodePackages_latest.bash-language-server
     sxiv
     pywal
-    pcmanfm
     hyprland
     i3
     # gnome3.gnome-tweaks
@@ -37,23 +36,92 @@
     wayland
     xdg-utils # for opening default programs when clicking links
     glib # gsettings
-    # dracula-theme # gtk theme
+    dracula-theme # gtk theme
     # gnome3.adwaita-icon-theme  # default gnome cursors
     # swaylock
     swayidle
+    swaylock-effects
     pass-wayland
     # sway
     pavucontrol
     # configure-gtk
     #  thunderbird
     discord
+    obs-studio
+    fastfetch
+    mpv
+    lxmenu-data
+    shared-mime-info
+    lxappearance
   ];
   programs.waybar.enable = true;
   programs.git = {
     enable = true;
     userName = "pavanbhat1999";
     userEmail = "prbhat07@gmail.com";
+    extraConfig = {
+      credential.helper = "${
+          pkgs.git.override { withLibsecret = true; }
+        }/bin/git-credential-libsecret";
+    };
   };
+
+qt.enable = true;
+
+# platform theme "gtk" or "gnome"
+qt.platformTheme = "gtk";
+
+# name of the qt theme
+qt.style.name = "Tokyonight-Dark-B";
+
+# detected automatically:
+# adwaita, adwaita-dark, adwaita-highcontrast,
+# adwaita-highcontrastinverse, breeze,
+# bb10bright, bb10dark, cde, cleanlooks,
+# gtk2, motif, plastique
+
+# package to use
+qt.style.package = pkgs.adwaita-qt;
+
+   gtk = {
+      enable = true;
+      theme = {
+        name = "Tokyonight-Dark-B";
+        # package = pkgs.cinnamon.mint-themes;
+        package=  pkgs.tokyo-night-gtk;
+      };
+      iconTheme = {
+        name = "kora";
+        # package = pkgs.papirus-icon-theme;
+        package = pkgs.kora-icon-theme;
+      };
+      font = {
+        name = "JetBrainsMono Nerd Font";
+        size = 12;
+      };
+      gtk3 = {
+        extraConfig = {
+          gtk-application-prefer-dark-theme = 1;
+        };
+      };
+      gtk4 = {
+        extraConfig = {
+          gtk-application-prefer-dark-theme = 1;
+        };
+      };
+   };
+
+gtk.cursorTheme.package = pkgs.bibata-cursors;
+gtk.cursorTheme.name = "Bibata-Modern-Amber";
+
+#NOTE: simple theme
+# gtk = {
+#     enable = true;
+#     theme = {
+#       name = "Materia-dark";
+#       package = pkgs.materia-theme;
+#     };
+#   };
 
   # programs.zsh = {
   #   enable = true;

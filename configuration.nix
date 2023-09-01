@@ -21,9 +21,20 @@
   # Pick only one of the below networking options.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+      vaapiVdpau
+      libvdpau-va-gl
+    ];
+  };
 
-
-  # programs.dconf.enable = true;
+  programs.dconf.enable = true;
   virtualisation.libvirtd.enable = true;
   # Set your time zone.
   time.timeZone = "Asia/Kolkata";
@@ -43,6 +54,8 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.gvfs.enable = true;
+  # services.udisks2.enable = true;
+  # services.devmon.enable = true;
 
   # Enable the Plasma 5 Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
@@ -53,20 +66,35 @@
   #   export SSH_AUTH_SOCK
   # '';
   # services.xserver.desktopManager.gnome.enable = true;
-  services.gnome3.gnome-keyring.enable = true;
+  services.gnome.gnome-keyring.enable = true;
   security.pam.services.sddm.enableGnomeKeyring = true;
+  security.pam.services.swaylock = {
+      text = ''
+          auth include login
+          '';
+  };
   services.dbus.enable = true;
   # security.pam.services.sddm.gnupg.enable=true;
   # security.pam.services.root99.gnupg.enable=true;
-  # security.pam.services.sddm.enableKwallet = true;
+  # security.pam.services.sddm = {
+  #   enableKwallet = true;
+  #   text = ''
+  #           auth include login
+  #           '';
+  # };
+  # security.pam.services.kwallet = {
+  #     name = "kwallet";
+  #     enableKwallet = true;
+  # };
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
   security.polkit.enable = true;
+  # programs.seahorse.enable = true;
   xdg.portal = {
     enable = true;
     # wlr.enable = true;
     # gtk portal needed to make gtk apps happy
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk];
   };
   # security.pam.services.root99.enableKwallet = true;
   programs.gnupg.agent = {
@@ -75,17 +103,18 @@
   };
   programs.gnupg.agent.pinentryFlavor="qt";
   services.pcscd.enable = true;
-  # environment.plasma5.excludePackages = with pkgs.libsForQt5; [
-  #   elisa
-  #   gwenview
-  #   okular
-  #   oxygen
-  #   khelpcenter
-  #   # konsole
-  #   # plasma-browser-integration
-  #   print-manager
-  #   # xdg-desktop-portal-kde
-  # ];
+  environment.plasma5.excludePackages = with pkgs.libsForQt5; [
+    elisa
+    gwenview
+    okular
+    oxygen
+    khelpcenter
+    konsole
+    ksshaskpass
+    # plasma-browser-integration
+    print-manager
+    xdg-desktop-portal-kde
+  ];
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e,caps:escape";
@@ -129,6 +158,9 @@
     EDITOR = "nvim";
     VISUAL = "nvim";
     TERMINAL = "kitty";
+
+    MOZ_ENABLE_WAYLAND="1";
+    QT_QPA_PLATFORMTHEME="qt5ct";
   };
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.root99 = {
@@ -157,6 +189,8 @@
       OVMF
       nixd
       hyprpaper
+      pcmanfm
+      gnome.gvfs
       # cudatoolkit
     ];
   };
@@ -169,7 +203,7 @@
     killall
     exfat
     udisks
-    gvfs
+    # gvfs
     ntfs3g
     nfs-utils
     gnome.seahorse
