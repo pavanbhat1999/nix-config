@@ -1,2 +1,2 @@
 # nix-config
-my classic nix configuration half flakes 
+my classic nix configuration half flakes
