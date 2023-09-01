@@ -160,7 +160,8 @@
     TERMINAL = "kitty";
 
     MOZ_ENABLE_WAYLAND="1";
-    QT_QPA_PLATFORMTHEME="qt5ct";
+    # QT_QPA_PLATFORMTHEME="qt5ct";
+    QT_QPA_PLATFORMTHEME="kde";
   };
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.root99 = {

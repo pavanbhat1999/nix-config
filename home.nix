@@ -72,7 +72,7 @@ qt.enable = true;
 qt.platformTheme = "gtk";
 
 # name of the qt theme
-qt.style.name = "Tokyonight-Dark-B";
+qt.style.name = "adwaita-dark";
 
 # detected automatically:
 # adwaita, adwaita-dark, adwaita-highcontrast,
