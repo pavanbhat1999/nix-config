@@ -4,11 +4,13 @@
     font-family: mononoki Nerd Font;
     font-size: 14px;
     min-height: 0;
+    /* background:#24283b; */
 }
 
 window#waybar {
-    background-color: rgba(0,0,0,.5);
-    color: white;
+    /* background: transparent; */
+    background:#24283b;
+    /* color: white; */
 }
 
 #workspaces {
@@ -23,8 +25,8 @@ window#waybar {
 }
 
 #workspaces button.active {
-    color: #24283b;
-    background-color: #7aa2f7;
+    /* color: #24283b; */
+    background-color: #3F71DC;
     border-radius: 5px;
 }
 
