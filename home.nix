@@ -53,6 +53,10 @@
     lxmenu-data
     shared-mime-info
     lxappearance
+    eww-wayland
+    ranger
+    socat
+    gnome.zenity
   ];
   programs.waybar.enable = true;
   programs.git = {
