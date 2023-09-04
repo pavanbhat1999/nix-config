@@ -17,6 +17,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
   # boot.kernelParams = ["nvidia_drm.modeset=1"];
+  boot.kernelPackages = pkgs.linuxPackages_zen;
   networking.hostName = "root99"; # Define your hostname.
   # Pick only one of the below networking options.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -35,7 +36,8 @@
       libvdpau-va-gl
     ];
   };
-  services.xserver.videoDrivers = [ "nvidia" ];
+  # services.xserver.videoDrivers = ["intel"];
+  services.xserver.videoDrivers = [  "intel" "nvidia"];
   hardware.nvidia = {
 
     # Modesetting is needed most of the time
@@ -91,9 +93,11 @@
   # services.devmon.enable = true;
 
   # Enable the Plasma 5 Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.startx.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-  #   services.xserver.windowManager.i3.enable = true;
+  # services.xserver.windowManager.awesome.enable = true;
+  # services.xserver.windowManager.i3.enable = true;
   # services.xserver.windowManager.i3.extraSessionCommands = ''
   #   eval $(gnome-keyring-daemon --daemonize)
   #   export SSH_AUTH_SOCK
@@ -174,7 +178,6 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
   environment.shells = with pkgs; [ zsh ];
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.sessionVariables = rec{
     PATH = [
       "/home/root99/bin"
@@ -192,6 +195,7 @@
     VISUAL = "nvim";
     TERMINAL = "kitty";
 
+    NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND="1";
     # QT_QPA_PLATFORMTHEME="qt5ct";
     QT_QPA_PLATFORMTHEME="kde";
@@ -202,30 +206,6 @@
     extraGroups = [ "wheel" "kvm" "input" "networkmanager" "disk" "libvirtd" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
     packages = with pkgs; [
-      firefox
-      tree
-      kitty
-      ventoy
-      gparted
-      brave
-      zsh
-      exa
-      git
-      fzf
-      ripgrep
-      lua
-      gcc
-      clang
-      zig
-      btop
-      xclip
-      virt-manager
-      OVMF
-      nixd
-      hyprpaper
-      pcmanfm
-      gnome.gvfs
-      # cudatoolkit
     ];
   };
   # List packages installed in system profile. To search, run:
@@ -247,6 +227,8 @@
     xorg.xhost
     nodejs
     jdk17
+    xorg.xinit
+    libinput # i dont knoe why i put this
   ];
   # home-manager = {
   #   useGlobalPkgs = true;

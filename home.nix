@@ -11,7 +11,7 @@
     rofi-wayland
     dmenu
     rofi-pass
-    rofi-emoji
+    # rofi-emoji
     grim
     slurp
     cliphist
@@ -24,6 +24,7 @@
     pywal
     hyprland
     i3
+    # awesome
     # gnome3.gnome-tweaks
     lua
     lua-language-server
@@ -36,17 +37,18 @@
     wayland
     xdg-utils # for opening default programs when clicking links
     glib # gsettings
-    dracula-theme # gtk theme
+    # dracula-theme # gtk theme
     # gnome3.adwaita-icon-theme  # default gnome cursors
     # swaylock
     swayidle
     swaylock-effects
-    pass-wayland
+    # pass-wayland
     # sway
     pavucontrol
     # configure-gtk
     #  thunderbird
     discord
+    # webcord
     obs-studio
     fastfetch
     mpv
@@ -55,10 +57,39 @@
     lxappearance
     eww-wayland
     ranger
-    socat
+    socat # workspace switch in eww
     gnome.zenity
+    gimp
+    # nvidia-vaapi-driver
+    # egl-wayland
+    firefox
+    tree
+    kitty
+    # ventoy
+    # gparted
+    brave
+    zsh
+    exa
+    git
+    fzf
+    ripgrep
+    # gcc
+    # clang
+    # zig
+    btop
+    htop
+    xclip
+    virt-manager
+    OVMF # dont know what for
+    nixd
+    hyprpaper
+# pcmanfm
+    xfce.thunar
+    gnome.gvfs
+# cudatoolkit
   ];
-  programs.waybar.enable = true;
+
+programs.waybar.enable = true;
   programs.git = {
     enable = true;
     userName = "pavanbhat1999";
@@ -68,6 +99,20 @@
           pkgs.git.override { withLibsecret = true; }
         }/bin/git-credential-libsecret";
     };
+  };
+#vscode configs
+programs.vscode = {
+      enable = true;
+      extensions = with pkgs.vscode-extensions; [
+        vscodevim.vim
+        bbenoist.nix
+        yzhang.markdown-all-in-one
+        enkia.tokyo-night
+      ];
+# userSettings =
+# {
+#     "workbench.colorTheme" = "Tokyo Night";
+# };
   };
 
 qt.enable = true;
